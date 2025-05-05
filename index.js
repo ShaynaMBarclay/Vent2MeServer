@@ -36,7 +36,7 @@ function canUseAI(ip) {
     return true;
   }
 
-  return count < 6;
+  return count < 20;
 }
 
 function incrementUsage(ip) {
