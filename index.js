@@ -19,7 +19,8 @@ app.post('/gemini', async (req, res) => {
   const { journalEntry } = req.body;
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    // Update to use the correct model name
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
     const result = await model.generateContent(`
       A person wrote this journal entry:
 
