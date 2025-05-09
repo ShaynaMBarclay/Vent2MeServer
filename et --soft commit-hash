@@ -1,0 +1,14 @@
+* [33me0c6a5f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m added sign up and log in
+* [33mb366a76[m[33m ([m[1;31morigin/main[m[33m)[m fixed rate limiting
+* [33mfe85298[m fixes
+* [33ma2028c3[m removed rate limit
+* [33m4963307[m fixed things
+* [33mc14417f[m connected backend
+* [33mbd50d97[m fixed
+* [33m6dcb433[m prepare for deployment
+* [33m359dc9a[m added ai functions
+*   [33mcc1a55e[m mm
+[32m|[m[33m\[m  
+* [33m|[m [33m9ad41e1[m Add .env to .gitignore
+[33m|[m[33m/[m  
+* [33mdc8974d[m commit
