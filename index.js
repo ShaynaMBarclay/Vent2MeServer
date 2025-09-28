@@ -1,4 +1,3 @@
-// server/index.js
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -58,18 +57,31 @@ app.post('/gemini', async (req, res) => {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+    // ✅ Use the updated Gemini 2.5 model
+    const model = genAI.getGenerativeModel({
+      model: 'models/gemini-2.5-flash-preview-05-20',
+    });
 
-    const result = await model.generateContent(`
-      A person wrote this journal entry:
+    // ✅ Log the model being used
+    console.log("Using AI model:", model.modelId || "unknown");
 
-      "${journalEntry}"
+    const prompt = `
+A person wrote this journal entry:
 
-      Please give supportive, kind mental health feedback, suggesting 1–2 helpful coping ideas or reflections.
-    `);
+"${journalEntry}"
 
-    const response = await result.response;
-    const text = response.text();
+Please give supportive, kind mental health feedback, suggesting 1–2 helpful coping ideas or reflections.
+    `;
+
+    const result = await model.generateContent(prompt);
+    let text = await result.response.text();
+
+    // Clean up text (remove ``` if any)
+    text = text.trim();
+    if (text.startsWith('```')) {
+      text = text.replace(/^```(\w*)\n/, '');
+      text = text.replace(/```$/, '');
+    }
 
     incrementUsage(ip);
 
