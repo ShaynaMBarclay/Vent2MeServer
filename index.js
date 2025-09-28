@@ -70,7 +70,9 @@ A person wrote this journal entry:
 
 "${journalEntry}"
 
-Please give supportive, kind mental health feedback, suggesting 1–2 helpful coping ideas or reflections.
+Please start your response by clearly stating that your advice is **not a replacement for medical or professional help**. If anything in the entry seems potentially harmful to themselves or others, instruct them to **call emergency services immediately**.  
+
+After this disclaimer, provide **supportive, kind, and compassionate mental health feedback**, offering 1–2 practical coping ideas or gentle reflections. Keep the tone friendly, nurturing, and encouraging, like a trusted friend or mentor would.
     `;
 
     const result = await model.generateContent(prompt);
