@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.set('trust proxy', true); // To get real IP if behind proxy
+app.set('trust proxy', true); 
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -52,33 +52,49 @@ app.post('/gemini', async (req, res) => {
 
   if (!canUseAI(ip)) {
     return res.status(429).json({
-      error: 'You have reached your AI usage limit. Please try again in a few hours.',
+      error: 'You have reached your usage limit. Please try again in a few hours.',
     });
   }
 
-  try {
-    // ✅ Use the updated Gemini 2.5 model
-    const model = genAI.getGenerativeModel({
-      model: 'models/gemini-2.5-flash-preview-05-20',
-    });
+  const primaryModel = 'models/gemini-2.5-flash-preview-09-2025';
+  const fallbackModel = 'models/gemini-2.5-flash';
 
-    // ✅ Log the model being used
-    console.log("Using AI model:", model.modelId || "unknown");
+  try {
+    let model;
+    try {
+      // Try primary model first
+      model = genAI.getGenerativeModel({ model: primaryModel });
+      console.log(`🧠 Using primary model: ${primaryModel}`);
+    } catch {
+      // If fails during initialization, use fallback immediately
+      console.warn(`⚠️ Primary model failed to initialize. Switching to fallback: ${fallbackModel}`);
+      model = genAI.getGenerativeModel({ model: fallbackModel });
+    }
 
     const prompt = `
 A person wrote this journal entry:
 
 "${journalEntry}"
 
-Please start your response by clearly stating that your advice is **not a replacement for medical or professional help**. If anything in the entry seems potentially harmful to themselves or others, instruct them to **call emergency services immediately**.  
+Please start your response by clearly stating that your advice is **not a replacement for medical or professional help**. 
+If anything in the entry seems potentially harmful to themselves or others, instruct them to **call emergency services immediately**.  
 
-After this disclaimer, provide **supportive, kind, and compassionate mental health feedback**, offering 1–2 practical coping ideas or gentle reflections. Keep the tone friendly, nurturing, and encouraging, like a trusted friend or mentor would.
+After this disclaimer, provide **supportive, kind, and compassionate mental health feedback**, offering 1–2 practical coping ideas or gentle reflections. 
+Keep the tone friendly, nurturing, and encouraging, like a trusted friend or mentor would.
     `;
 
-    const result = await model.generateContent(prompt);
+    let result;
+    try {
+      result = await model.generateContent(prompt);
+    } catch (error) {
+      console.warn(`⚠️ Error using ${primaryModel}. Retrying with fallback model.`);
+      // Retry once with fallback
+      const fallback = genAI.getGenerativeModel({ model: fallbackModel });
+      result = await fallback.generateContent(prompt);
+    }
+
     let text = await result.response.text();
 
-    // Clean up text (remove ``` if any)
     text = text.trim();
     if (text.startsWith('```')) {
       text = text.replace(/^```(\w*)\n/, '');
@@ -89,7 +105,7 @@ After this disclaimer, provide **supportive, kind, and compassionate mental heal
 
     res.json({ reply: text });
   } catch (error) {
-    console.error('Gemini API Error:', error);
+    console.error('❌ Gemini API Error:', error);
     res.status(500).json({ error: 'Failed to get response from Gemini.' });
   }
 });
