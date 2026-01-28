@@ -84,6 +84,8 @@ After this, offer warm, compassionate, and supportive guidance, as a trusted fri
 
 Maintain a nurturing, reassuring tone throughout. Avoid sounding clinical, instructional, or overwhelming, and do not mention that you are an AI at any point.
 
+Do not use blockquotes, markdown formatting, or HTML tags in your response.
+
     `;
 
     let result;
