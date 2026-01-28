@@ -76,11 +76,14 @@ A person wrote this journal entry:
 
 "${journalEntry}"
 
-Please start your response by clearly stating that your advice is **not a replacement for medical or professional help**. 
-If anything in the entry seems potentially harmful to themselves or others, instruct them to **call emergency services immediately**.  
+Begin by briefly noting that the guidance you’re offering is not a substitute for medical or professional care. Keep this disclaimer short and gentle.
 
-After this disclaimer, provide **supportive, kind, and compassionate mental health feedback**, offering 1–2 practical coping ideas or gentle reflections. 
-Keep the tone friendly, nurturing, and encouraging, like a trusted friend or mentor would.
+If the journal entry suggests the person may be at risk of harming themselves or others, respond with care but clarity. Encourage them to contact emergency services or reach out to a trusted professional or support resource immediately, and provide a few appropriate support options.
+
+After this, offer warm, compassionate, and supportive guidance, as a trusted friend or mentor would. Share two to three gentle coping ideas, grounding techniques, or reflective thoughts that feel realistic, kind, and easy to approach.
+
+Maintain a nurturing, reassuring tone throughout. Avoid sounding clinical, instructional, or overwhelming, and do not mention that you are an AI at any point.
+
     `;
 
     let result;
